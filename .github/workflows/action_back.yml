@@ -26,7 +26,6 @@ jobs:
         run: |
           ls
           aws lambda update-function-code --function-name powerServer --zip-file fileb://./powerServer.zip
-          aws lambda update-function-configuration --function-name powerServer --environment "Variables={EXAMPLE_VAR=example-value}"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
