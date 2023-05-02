@@ -17,6 +17,7 @@ jobs:
             npm install
             npm i -g @nestjs/cli  
             npm i @nestjs/core
+            npm ls
             
       - name: Build and zip project
         run: |
