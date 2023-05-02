@@ -14,8 +14,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-            npm i -g @nestjs/cli  
             npm install
+            npm i -g @nestjs/cli  
             npm i @nestjs/core
             
       - name: Build and zip project
