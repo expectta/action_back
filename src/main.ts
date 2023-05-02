@@ -19,6 +19,7 @@ export async function handler(
   context: Context,
   callback: Callback,
 ) {
+  console.log('#1 my-log');
   const app = await bootstrap();
   await app.init();
   const expressApp = app.getHttpAdapter().getInstance();
