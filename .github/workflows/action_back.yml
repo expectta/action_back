@@ -30,11 +30,11 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ap-northeast-2
       - name: Deploy to AWS Lambda
         uses: appleboy/lambda-action@v0.1.1
         with:
-          function-name: my-lambda-function
+          function-name: powerServer
           handler-name: handler
           runtime: nodejs14.x
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
