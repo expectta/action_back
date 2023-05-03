@@ -24,4 +24,5 @@ jobs:
           npm install
           npm install -g @nestjs/cli
           npm run build
-          npx serverless deploy --stage powerServer
+          npx serverless deploy --function powerServer
+
