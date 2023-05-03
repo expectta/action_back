@@ -1,50 +1,26 @@
-name: Deploy to AWS Lambda
+name: deploy-to-aws-lambda
 on:
   push:
     branches:
       - main
 jobs:
   deploy:
-    name: Deploy
     runs-on: ubuntu-20.04
-
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v2
-        
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v1
+      - name: Install Node.js and NPM
+        uses: actions/setup-node@v2
         with:
           node-version: '16.x'
           
-      - name: Install dependencies
+- name: AWS Configure
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region ap-northeast-2
+      - name: Deploy to AWS Lambda
         run: |
           npm install
-          npm install -g @nestjs/cli
-          
-      - name: Build application
-        run: npm run build
-        
-      - name: Archive application
-        uses: actions/upload-artifact@v2
-        with:
-          name: app
-          path: dist
-          
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
-          
-      - name: Deploy to AWS Lambda
-        uses: appleboy/lambda-action@v0.1.1
-        with:
-          function-name: powerServer
-          handler-name: main.handler
-          runtime: nodejs16.x
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
-          artifact-name: app
+          npm run build
+          npx serverless deploy --stage dev
