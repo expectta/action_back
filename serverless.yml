@@ -4,9 +4,6 @@ provider:
   runtime: nodejs16.x
   region: ${opt:region, 'ap-northeast-2'}
   stage: ${opt:stage, 'dev'}
-  environment:
-    NODE_ENV: ${self:provider.stage}
-    DATABASE_URL: ${env:DATABASE_URL}
   iamRoleStatements:
     - Effect: Allow
       Action:
