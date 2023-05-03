@@ -9,9 +9,10 @@ provider:
         - s3:*
       Resource: '*'
 functions:
-  app:
-    handler: dist/index.handler
+  functions:
+  powerServer:
+    handler: path/to/powerServer.handler
     events:
       - http:
           method: any
-          path: /
+          path: /powerServer
