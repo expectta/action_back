@@ -1,0 +1,21 @@
+service: my-service-name
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: ${opt:region, 'ap-northeast-2'}
+  stage: ${opt:stage, 'dev'}
+  environment:
+    NODE_ENV: ${self:provider.stage}
+    DATABASE_URL: ${env:DATABASE_URL}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: '*'
+functions:
+  app:
+    handler: dist/index.handler
+    events:
+      - http:
+          method: any
+          path: /
