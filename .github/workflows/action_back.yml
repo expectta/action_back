@@ -42,7 +42,7 @@ jobs:
         uses: appleboy/lambda-action@v0.1.1
         with:
           function-name: powerServer
-          handler-name: handler
+          handler-name: main.handler
           runtime: nodejs16.x
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
