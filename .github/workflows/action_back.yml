@@ -1,34 +1,40 @@
 name: Deploy to AWS Lambda
-
 on:
   push:
     branches:
       - main
-  
 jobs:
   deploy:
-    runs-on: ubuntu-20.04
+    name: Deploy
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v2
-
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
       - name: Install dependencies
-        run: |
-            npm install
-            npm i -g @nestjs/cli  
-            npm ls
-            
-      - name: Build and zip project
-        run: |
-          npm run build
-          npm prune --production
-          cp .env dist/
-          cd dist && zip -r ../powerServer.zip * -x "*.git*"
-
+        run: npm ci
+      - name: Build application
+        run: npm run build
+      - name: Archive application
+        uses: actions/upload-artifact@v2
+        with:
+          name: app
+          path: dist
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
       - name: Deploy to AWS Lambda
-        run: |
-          ls
-          aws lambda update-function-code --region ap-northeast-2 --function-name powerServer --zip-file fileb://powerServer.zip
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        uses: appleboy/lambda-action@v0.1.1
+        with:
+          function-name: my-lambda-function
+          handler-name: handler
+          runtime: nodejs14.x
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          artifact-name: app
