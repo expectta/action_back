@@ -1,4 +1,4 @@
-service: poserServer
+service: powerServer
 provider:
   name: aws
   runtime: nodejs16.x
