@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: '16.x'
           
-- name: AWS Configure
+      - name: AWS Configure
         run: |
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
