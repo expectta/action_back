@@ -26,5 +26,5 @@ jobs:
           npm install -g @nestjs/cli
           npm run build
           aws lambda list-functions
-          npx serverless deploy --function powerServer --stage production
+          npx serverless deploy --function powerServer --stage powerServer
 
