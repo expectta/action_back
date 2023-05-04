@@ -27,6 +27,7 @@ jobs:
           npm run build
           npm install -g serverless
           aws lambda list-functions
+          serverless doctor
           serverless --version
           npx serverless deploy function --function powerServer
 
