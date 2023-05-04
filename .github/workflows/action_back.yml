@@ -29,5 +29,7 @@ jobs:
           aws lambda list-functions
           serverless doctor
           serverless --version
-          npx serverless deploy function --function powerServer
+          npx sls deploy function -f powerServer
+
+
 
