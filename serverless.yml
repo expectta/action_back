@@ -14,4 +14,4 @@ functions:
     events:
       - http:
           method: any
-          path: https://emt7ymwoci.execute-api.ap-northeast-2.amazonaws.com/default/powerServer
+          path: /powerServer
