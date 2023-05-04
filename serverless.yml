@@ -1,62 +1,18 @@
 service: newServer
 
+plugins:
+  - serverless-plugin-typescript
+  - serverless-plugin-warmup
+  - serverless-offline
+
 provider:
   name: aws
   runtime: nodejs16.x
   region: ${opt:region, 'ap-northeast-2'}
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - s3:*
-      Resource: '*'
-  apiGateway:
-    restApiId: ${cf:newServerApiGatewayRestApi}
-    restApiResources:
-      /newServer:
-        Fn::Join:
-          - ''
-          - - 'arn:aws:apigateway:'
-            - ${self:provider.region}
-            - ':restapis/'
-            - ${cf:newServerApiGatewayRestApi}
-            - '/resources/'
-            - { 'Fn::GetAtt': [newServerApiGatewayMethod, 'ResourceId'] }
-
 functions:
   newServer:
-    handler: main.handler
+    handler: src/lambda.handler
     events:
       - http:
           method: any
-          path: /newServer
-resources:
-  Resources:
-    newServerApiGatewayRestApi:
-      Type: 'AWS::ApiGateway::RestApi'
-      Properties:
-        Name: 'newServer-api-gateway'
-    newServerApiGatewayResource:
-      Type: 'AWS::ApiGateway::Resource'
-      Properties:
-        RestApiId: ${cf:newServerApiGatewayRestApi}
-        ParentId:
-          Fn::GetAtt: [newServerApiGatewayRestApi, RootResourceId]
-        PathPart: 'newServer'
-    newServerApiGatewayMethod:
-      Type: 'AWS::ApiGateway::Method'
-      Properties:
-        RestApiId: ${cf:newServerApiGatewayRestApi}
-        ResourceId: ${cf:newServerApiGatewayResource}
-        HttpMethod: ANY
-        AuthorizationType: NONE
-        Integration:
-          IntegrationHttpMethod: POST
-          Type: AWS_PROXY
-          Uri:
-            Fn::Join:
-              - ''
-              - - 'arn:aws:apigateway:'
-                - ${self:provider.region}
-                - ':lambda:path/2015-03-31/functions/'
-                - ${self:service}-${self:provider.stage}-newServer:${cf:newServerLambdaVersionArn}
-                - '/invocations'
+          path: /
