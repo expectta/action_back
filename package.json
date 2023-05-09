@@ -26,6 +26,7 @@
     "@vendia/serverless-express": "^4.10.1",
     "aws-lambda": "^1.0.7",
     "aws-serverless-express": "^3.4.0",
+    "nestjs-real-ip": "^2.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"
   },
