@@ -5,10 +5,7 @@ import { Callback, Context, Handler } from 'aws-lambda';
 
 export async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({
-    origin: true, //여기에 url을 넣어도된다.
-    credentials: true,
-  });
+  app.enableCors();
   return app;
 }
 let server: Handler;
@@ -20,6 +17,7 @@ export async function handler(
 ) {
   const app = await bootstrap();
   await app.init();
+  app.enableCors();
   const expressApp = app.getHttpAdapter().getInstance();
 
   server = server ?? serverlessExpress({ app: expressApp });
