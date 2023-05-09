@@ -9,7 +9,7 @@ export class AppController {
 
   @Get()
   getHello(@RealIP() ip: string): string {
-    return ip;
+    return ip + '=ip';
     // return this.appService.getHello();
   }
 }
