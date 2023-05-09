@@ -5,10 +5,7 @@ import { Callback, Context, Handler } from 'aws-lambda';
 
 export async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: {
-      origin: '*',
-      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    },
+    cors: true,
   });
   return app;
 }
